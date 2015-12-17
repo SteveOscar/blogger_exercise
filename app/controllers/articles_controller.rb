@@ -40,6 +40,7 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
     @article.update_attributes(article_params)
 
+    @article.attachments.create(:image => params[:article][:image])
     flash.notice = "Article '#{@article.title}' was updated!"
 
     redirect_to articles_path
@@ -50,7 +51,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :body, :tag_list, :image)
+    params.require(:article).permit(:title, :body, :tag_list, :load_image)
   end
 
 end

@@ -2,8 +2,7 @@ class Article < ActiveRecord::Base
   has_many :comments
   has_many :taggings
   has_many :tags, through: :taggings
-  has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }
-  validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png"]
+  has_many :attachments
 
 
   def tag_list=(tags_string)
@@ -16,6 +15,15 @@ class Article < ActiveRecord::Base
     self.tags.collect do |tag|
       tag.name
     end.join(", ")
+  end
+
+  def image=(image)
+    self.attachments.create(:image => image)
+    byebug
+  end
+
+  def image
+
   end
 
 end
